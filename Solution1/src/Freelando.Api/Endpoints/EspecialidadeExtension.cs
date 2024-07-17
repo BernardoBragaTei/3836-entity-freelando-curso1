@@ -25,5 +25,19 @@ public static class EspecialidadeExtension
             return Results.Created($"/especialidade/{especialidade.Id}", especialidade);
         }).WithTags("Especialidade").WithOpenApi();
 
+        app.MapPut("/especialidade/{id}", async ([FromServices] EspecialidadeConverter converter, [FromServices] FreelandoContext contexto, Guid id, EspecialidadeRequest especialidadeRequest) =>
+        {
+            var especialidade = await contexto.Especialidades.FindAsync(id);
+            if (especialidade is null)
+            {
+                return Results.NotFound();
+            }
+            var especialidadeAtualizada = converter.RequestToEntity(especialidadeRequest);
+            especialidade.Descricao = especialidadeAtualizada.Descricao;
+            especialidade.Projetos = especialidadeAtualizada.Projetos;
+            await contexto.SaveChangesAsync();
+            return Results.Ok((especialidade));
+        }).WithTags("Especialidade").WithOpenApi();
+
     }
 }
