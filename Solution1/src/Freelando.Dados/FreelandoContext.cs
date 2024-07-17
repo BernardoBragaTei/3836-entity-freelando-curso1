@@ -23,7 +23,10 @@ public class FreelandoContext : DbContext
         }
     }
 
-    modelBuilder.ApplyConfigurationsFromAssembly(typeof(FreelandoContext).Assembly);
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(FreelandoContext).Assembly);
+    }
 
     public DbSet<Candidatura> Candidaturas { get; set; }
     public DbSet<Cliente> Clientes { get; set; }
