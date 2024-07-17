@@ -1,4 +1,5 @@
 ﻿using Freelando.Api.Converters;
+using Freelando.Api.Requests;
 using Freelando.Dados;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,14 @@ public static class ServicoExtensions
         {
             var servico = converter.EntityListToResponseList(contexto.Servicos.ToList());
             return Results.Ok(await Task.FromResult(servico));
-        }).WithTags("Servicos").WithOpenApi();
+        }).WithTags("Servico").WithOpenApi();
+
+        app.MapPost("/servico", async ([FromServices] ServicoConverter converter, [FromServices] FreelandoContext contexto, ServicoRequest servicoRequest) =>
+        {
+            var servico = converter.RequestToEntity(servicoRequest);
+            await contexto.Servicos.AddAsync(servico);
+            await contexto.SaveChangesAsync();
+            return Results.Created($"/servico/{servico.Id}", servico);
+        }).WithTags("Servico").WithOpenApi();
     }
 }
