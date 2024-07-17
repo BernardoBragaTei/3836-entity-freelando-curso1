@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Freelando.Modelos;
 
 namespace Freelando.Dados.Mapeamentos;
 internal class ProjetoTypeConfiguration : IEntityTypeConfiguration<Projeto>
@@ -32,6 +33,14 @@ internal class ProjetoTypeConfiguration : IEntityTypeConfiguration<Projeto>
             .HasOne(e => e.Cliente)
             .WithMany(c => c.Projetos)
             .HasForeignKey("ID_Cliente");
+
+        entity
+            .HasMany(e => e.Especialidades)
+            .WithMany(e => e.Projetos)
+            .UsingEntity<ProjetoEspecialidade>(
+            l => l.HasOne<Especialidade>(e => e.Especialidade).WithMany(e => e.ProjetosEspecialidades).HasForeignKey(e => e.EspecialidadeId),
+            r => r.HasOne<Projeto>(e => e.Projeto).WithMany(e => e.ProjetosEspecialidades).HasForeignKey(e => e.ProjetoId)
+            );
 
     }
 }
