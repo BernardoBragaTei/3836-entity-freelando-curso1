@@ -10,20 +10,20 @@ public class ContratoConverter
     {
         if (contrato == null)
         {
-            return new ContratoResponse(Guid.Empty, 0.0);
+            return new ContratoResponse(Guid.Empty, 0.0, null);
         }
 
-        return new ContratoResponse(contrato.Id, contrato.Valor);
+        return new ContratoResponse(contrato.Id, contrato.Valor, contrato.Vigencia);
     }
 
     public Contrato RequestToEntity(ContratoRequest? contratoRequest)
     {
         if (contratoRequest == null)
         {
-            return new Contrato(Guid.Empty, 0.0);
+            return new Contrato(Guid.Empty, 0.0, null);
         }
 
-        return new Contrato(contratoRequest.Id, contratoRequest.Valor);
+        return new Contrato(contratoRequest.Id, contratoRequest.Valor, contratoRequest.Vigencia);
     }
 
     public ICollection<ContratoResponse> EntityListToResponseList(IEnumerable<Contrato> contratos)

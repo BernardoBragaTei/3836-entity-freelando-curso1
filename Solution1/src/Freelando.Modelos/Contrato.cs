@@ -1,4 +1,5 @@
 ﻿using Freelando.Modelo;
+using Freelando.Modelos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,14 @@ public class Contrato
     {
     }
 
-    public Contrato(Guid id, double valor)
+    public Contrato(Guid id, double valor, Vigencia vigencia)
     {
         Id = id;
         Valor = valor;
+        Vigencia = vigencia;
     }
     public Guid Id { get; set; }
     public double Valor { get; set; }
-    public DateTime DataInicio { get; set; }
-    public DateTime DataEncerramento { get; set; }
+    public Vigencia? Vigencia { get; set; }
 
 }
