@@ -38,5 +38,17 @@ public static class ProjetoExtension
             await contexto.SaveChangesAsync();
             return Results.Ok((projeto));
         }).WithTags("Projeto").WithOpenApi();
+
+        app.MapDelete("/projeto/{id}", async ([FromServices] ProjetoConverter converter, [FromServices] FreelandoContext contexto, Guid id) =>
+        {
+            var projeto = await contexto.Projetos.FindAsync(id);
+            if (projeto is null)
+            {
+                return Results.NotFound();
+            }
+            contexto.Projetos.Remove(projeto);
+            await contexto.SaveChangesAsync();
+            return Results.NoContent();
+        }).WithTags("Projeto").WithOpenApi();
     }
 }
