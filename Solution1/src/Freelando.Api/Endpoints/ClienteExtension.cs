@@ -11,7 +11,7 @@ public static class ClienteExtension
     {
         app.MapGet("/clientes", async ([FromServices] ClienteConverter converter, [FromServices] FreelandoContext contexto) =>
         {
-            var clientes = converter.EntityListToResponseList(contexto.Clientes.AsNoTracking().ToList());
+            var clientes = converter.EntityListToResponseList(contexto.Clientes.ToList());
             var entries = contexto.ChangeTracker.Entries();
             return Results.Ok(await Task.FromResult(clientes));
         }).WithTags("Cliente").WithOpenApi();

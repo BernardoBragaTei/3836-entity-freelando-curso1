@@ -22,5 +22,10 @@ internal class ServicoTypeConfiguration : IEntityTypeConfiguration<Servico>
                 fromObj => fromObj.ToString(),
                 fromDb => (StatusServico)Enum.Parse(typeof(StatusServico), fromDb)
             );
+
+        entity
+            .HasOne(e => e.Contrato)
+            .WithOne(e => e.Servico);
+
     }
 }

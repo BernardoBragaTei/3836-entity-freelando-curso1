@@ -11,7 +11,7 @@ public static class ServicoExtensions
     {
         app.MapGet("/servicos", async ([FromServices] ServicoConverter converter, [FromServices] FreelandoContext contexto) =>
         {
-            var servico = converter.EntityListToResponseList(contexto.Servicos.AsNoTracking().ToList());
+            var servico = converter.EntityListToResponseList(contexto.Servicos.ToList());
             var entries = contexto.ChangeTracker.Entries();
             return Results.Ok(await Task.FromResult(servico));
         }).WithTags("Servicos").WithOpenApi();

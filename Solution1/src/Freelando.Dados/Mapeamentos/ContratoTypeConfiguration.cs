@@ -14,11 +14,17 @@ internal class ContratoTypeConfiguration : IEntityTypeConfiguration<Contrato>
     {
         entity.ToTable("TB_Contratos");
         entity.Property(e => e.Id).HasColumnName("Id_Contrato");
+        entity.Property(e => e.ServicoId).HasColumnName("ID_Servico");
         entity.OwnsOne(e => e.Vigencia, vigencia =>
         {
             vigencia.Property(v => v.DataInicio).HasColumnName("Data_Inicio");
             vigencia.Property(v => v.DataEncerramento).HasColumnName("Data_Encerramento");
         });
+
+        entity
+            .HasOne(e => e.Servico)
+            .WithOne(e => e.Contrato)
+            .HasForeignKey<Contrato>(e => e.Id);
 
     }
 }

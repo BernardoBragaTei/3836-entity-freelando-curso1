@@ -11,7 +11,7 @@ public static class ContratoExtension
     {
         app.MapGet("/contratos", async ([FromServices] ContratoConverter converter, [FromServices] FreelandoContext contexto) =>
         {
-            var contrato = converter.EntityListToResponseList(contexto.Contratos.AsNoTracking().ToList());
+            var contrato = converter.EntityListToResponseList(contexto.Contratos.ToList());
             var entries = contexto.ChangeTracker.Entries();
             return Results.Ok(await Task.FromResult(contrato));
         }).WithTags("Contrato").WithOpenApi();
