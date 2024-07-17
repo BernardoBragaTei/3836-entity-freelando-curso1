@@ -2,6 +2,7 @@
 using Freelando.Api.Converters;
 using Freelando.Api.Requests;
 using Freelando.Dados;
+using Freelando.Modelo;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,13 @@ public static class EspecialidadeExtension
         app.MapPost("/especialidade", async ([FromServices] EspecialidadeConverter converter, [FromServices] FreelandoContext contexto, EspecialidadeRequest especialidadeRequest) =>
         {
             var especialidade = converter.RequestToEntity(especialidadeRequest);
+            
+            Func<Especialidade, bool> validarDescricao = especialidade => !string.IsNullOrEmpty(especialidade.Descricao) && char.IsUpper(especialidade.Descricao[0]);
+            if (!validarDescricao(especialidade))
+            {
+                return Results.BadRequest("A descrição não pode estar em branco e deve começar com letra maiúscula.");
+            }
+
             await contexto.Especialidades.AddAsync(especialidade);
             await contexto.SaveChangesAsync();
             return Results.Created($"/especialidade/{especialidade.Id}", especialidade);
