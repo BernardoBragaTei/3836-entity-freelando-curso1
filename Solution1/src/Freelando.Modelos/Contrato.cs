@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 namespace Freelando.Modelo;
 public class Contrato
 {
+    public Contrato()
+    {
+    }
+
+    public Contrato(Guid id, double valor)
+    {
+        Id = id;
+        Valor = valor;
+    }
     public Guid Id { get; set; }
     public double Valor { get; set; }
     public DateTime DataInicio { get; set; }

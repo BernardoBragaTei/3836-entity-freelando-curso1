@@ -7,6 +7,18 @@ namespace Freelando.Modelo;
 
 public class Candidatura
 {
+    public Candidatura()
+    {
+    }
+
+    public Candidatura(Guid id, double valorProposto, string? descricaoProposta, DuracaoEmDias duracaoProposta, StatusCandidatura status)
+    {
+        Id = id;
+        ValorProposto = valorProposto;
+        DescricaoProposta = descricaoProposta;
+        DuracaoProposta = duracaoProposta;
+        Status = status;
+    }
     public Guid Id { get; set; }
     public double ValorProposto { get; set; }
     public string? DescricaoProposta { get; set; }
