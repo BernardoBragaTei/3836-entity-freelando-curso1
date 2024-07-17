@@ -7,6 +7,7 @@ namespace Freelando.Api.Converters;
 public class EspecialidadeConverter
 {
     private ProjetoConverter? _projetosConverter;
+    private ProfissionalConverter? _profissionalConverter;
 
     public EspecialidadeResponse EntityToResponse(Especialidade? especialidade)
     {
@@ -18,8 +19,10 @@ public class EspecialidadeConverter
     public Especialidade RequestToEntity(EspecialidadeRequest? especialidade)
     {
         _projetosConverter = new ProjetoConverter();
-        if (especialidade == null) { return (new Especialidade(Guid.Empty, "", new List<Projeto>())); }
-        return new Especialidade(especialidade.Id, especialidade.Descricao, _projetosConverter.RequestListToEntityList(especialidade.Projetos));
+        _profissionalConverter = new ProfissionalConverter();
+
+        if (especialidade == null) { return (new Especialidade(Guid.Empty, "", new List<Projeto>(), new List<Profissional>())); }
+        return new Especialidade(especialidade.Id, especialidade.Descricao, _projetosConverter.RequestListToEntityList(especialidade.Projetos), _profissionalConverter.RequestListToEntityList(especialidade.Profissionais));
     }
 
     public ICollection<EspecialidadeResponse> EntityListToResponseList(IEnumerable<Especialidade>? especialidades)

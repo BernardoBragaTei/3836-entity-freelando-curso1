@@ -6,12 +6,17 @@ namespace Freelando.Api.Converters;
 
 public class ServicoConverter
 {
+    private ProjetoConverter? _projetoConverter;
+    private CandidaturaConverter? _candidaturaConverter;
 
     public ServicoResponse EntityToResponse(Servico? servico)
     {
+        _projetoConverter = new ProjetoConverter();
+
+
         if (servico == null)
         {
-            return new ServicoResponse(Guid.Empty, null, null, StatusServico.Disponivel.ToString());
+            return new ServicoResponse(Guid.Empty, null, null, StatusServico.Disponivel.ToString(), Guid.Empty);
         }
 
         ContratoResponse? contratoResponse = null;
@@ -21,17 +26,19 @@ public class ServicoConverter
             contratoResponse = contratoConverter.EntityToResponse(servico.Contrato);
         }
 
-        return new ServicoResponse(servico.Id, servico.Titulo, servico.Descricao, servico.Status.ToString());
+        return new ServicoResponse(servico.Id, servico.Titulo, servico.Descricao, servico.Status.ToString(), servico.ProjetoId);
     }
 
     public Servico RequestToEntity(ServicoRequest? servicoRequest)
     {
+        _candidaturaConverter = new CandidaturaConverter();
+
         if (servicoRequest == null)
         {
-            return new Servico(Guid.Empty, null, null, StatusServico.Disponivel, null);
+            return new Servico(Guid.Empty, null, null, StatusServico.Disponivel, null, null, null);
         }
 
-        return new Servico(servicoRequest.Id, servicoRequest.Titulo, servicoRequest.Descricao, servicoRequest.Status, null);
+        return new Servico(servicoRequest.Id, servicoRequest.Titulo, servicoRequest.Descricao, servicoRequest.Status, null, _projetoConverter.RequestToEntity(servicoRequest.Projeto), null);
     }
 
     public ICollection<ServicoResponse> EntityListToResponseList(IEnumerable<Servico> servicos)

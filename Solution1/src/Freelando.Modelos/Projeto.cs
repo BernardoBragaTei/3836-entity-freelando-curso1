@@ -13,7 +13,7 @@ public class Projeto
 
     }
 
-    public Projeto(Guid id, string? titulo, string descricao, StatusProjeto status, Cliente cliente, ICollection<Especialidade> especialidades)
+    public Projeto(Guid id, string? titulo, string descricao, StatusProjeto status, Cliente cliente, ICollection<Especialidade> especialidades, ICollection<Servico> servicos)
     {
         Id = id;
         Cliente = cliente;
@@ -21,6 +21,7 @@ public class Projeto
         Descricao = descricao;
         Status = status;
         Especialidades = especialidades;
+        Servicos = servicos;
     }
 
     public Guid Id { get; set; }
@@ -29,5 +30,6 @@ public class Projeto
     public StatusProjeto Status { get; set; }
     public Cliente? Cliente { get; set; }
     public ICollection<Especialidade> Especialidades { get; set; }
-    public List<ProjetoEspecialidade> ProjetosEspecialidades { get; } = [];
+    public ICollection<ProjetoEspecialidade> ProjetosEspecialidades { get; } = [];
+    public ICollection<Servico> Servicos { get; set; }
 }

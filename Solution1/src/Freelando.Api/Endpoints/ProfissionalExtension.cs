@@ -11,7 +11,7 @@ public static class ProfissionalExtension
     {
         app.MapGet("/profissionais", async ([FromServices] ProfissionalConverter converter, [FromServices] FreelandoContext contexto) =>
         {
-            var profissional = converter.EntityListToResponseList(contexto.Profissionais.ToList());
+            var profissional = converter.EntityListToResponseList(contexto.Profissionais.Include(e => e.Especialidades).ToList());
             var entries = contexto.ChangeTracker.Entries();
             return Results.Ok(await Task.FromResult(profissional));
         }).WithTags("Profissional").WithOpenApi();

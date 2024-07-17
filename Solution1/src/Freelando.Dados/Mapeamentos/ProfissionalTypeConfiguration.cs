@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Freelando.Modelos;
 
 namespace Freelando.Dados.Mapeamentos;
 internal class ProfissionalTypeConfiguration : IEntityTypeConfiguration<Profissional>
@@ -15,5 +16,13 @@ internal class ProfissionalTypeConfiguration : IEntityTypeConfiguration<Profissi
         entity.ToTable("TB_Profissionais");
 
         entity.Property(e => e.Id).HasColumnName("Id_Profissional");
+
+        entity
+            .HasMany(e => e.Especialidades)
+            .WithMany(e => e.Profissionais)
+            .UsingEntity<ProfissionalEspecialidade>(
+            l => l.HasOne<Especialidade>(e => e.Especialidade).WithMany(e => e.ProfissionaisEspecialidades).HasForeignKey(e => e.EspecialidadeId),
+            r => r.HasOne<Profissional>(e => e.Profissional).WithMany(e => e.ProfissionaisEspecialidades).HasForeignKey(e => e.ProfissionalId)
+            );
     }
 }

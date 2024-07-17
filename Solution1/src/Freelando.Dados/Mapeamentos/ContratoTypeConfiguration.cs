@@ -15,6 +15,7 @@ internal class ContratoTypeConfiguration : IEntityTypeConfiguration<Contrato>
         entity.ToTable("TB_Contratos");
         entity.Property(e => e.Id).HasColumnName("Id_Contrato");
         entity.Property(e => e.ServicoId).HasColumnName("ID_Servico");
+        entity.Property(e => e.ProfissionalId).HasColumnName("ID_Profissional");
         entity.OwnsOne(e => e.Vigencia, vigencia =>
         {
             vigencia.Property(v => v.DataInicio).HasColumnName("Data_Inicio");
@@ -25,6 +26,11 @@ internal class ContratoTypeConfiguration : IEntityTypeConfiguration<Contrato>
             .HasOne(e => e.Servico)
             .WithOne(e => e.Contrato)
             .HasForeignKey<Contrato>(e => e.Id);
+
+        entity
+            .HasOne(e => e.Profissional)
+            .WithMany(e => e.Contratos)
+            .HasForeignKey(e => e.ProfissionalId);
 
     }
 }

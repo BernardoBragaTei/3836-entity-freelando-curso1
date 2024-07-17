@@ -36,5 +36,6 @@ public class FreelandoContext : DbContext
     public DbSet<Profissional> Profissionais { get; set; }
     public DbSet<Projeto> Projetos { get; set; }
     public DbSet<Servico> Servicos { get; set; }
-    public DbSet<ProjetoEspecialidade> ProjetosEspecialides { get; set; }
+    public DbSet<ProjetoEspecialidade> ProjetosEspecialidades { get; set; }
+    public DbSet<ProfissionalEspecialidade> ProfissionaisEspecialidades { get; set; }
 }
