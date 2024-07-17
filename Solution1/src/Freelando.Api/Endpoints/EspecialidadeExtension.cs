@@ -1,5 +1,6 @@
 ﻿
 using Freelando.Api.Converters;
+using Freelando.Api.Requests;
 using Freelando.Dados;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,14 @@ public static class EspecialidadeExtension
         {
             var especialidades = converter.EntityListToResponseList(contexto.Especialidades.ToList());
             return Results.Ok((especialidades));
+        }).WithTags("Especialidade").WithOpenApi();
+
+        app.MapPost("/especialidade", async ([FromServices] EspecialidadeConverter converter, [FromServices] FreelandoContext contexto, EspecialidadeRequest especialidadeRequest) =>
+        {
+            var especialidade = converter.RequestToEntity(especialidadeRequest);
+            await contexto.Especialidades.AddAsync(especialidade);
+            await contexto.SaveChangesAsync();
+            return Results.Created($"/especialidade/{especialidade.Id}", especialidade);
         }).WithTags("Especialidade").WithOpenApi();
 
     }
