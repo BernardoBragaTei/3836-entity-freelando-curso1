@@ -23,7 +23,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.AddEndPointEspecialidades();
+app.AddEndPointEspecialidade();
+app.AddEndPointProjeto();
 app.UseHttpsRedirection();
 
 app.Run();
