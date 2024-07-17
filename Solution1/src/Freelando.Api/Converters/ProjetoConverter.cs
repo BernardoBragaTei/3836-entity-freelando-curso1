@@ -6,20 +6,22 @@ namespace Freelando.Api.Converters;
 
 public class ProjetoConverter
 {
+    private ClienteConverter? _clienteConverter;
     public ProjetoResponse EntityToResponse(Projeto projeto)
     {
+        _clienteConverter = new ClienteConverter();
 
         return (projeto is null)
-            ? new ProjetoResponse(Guid.Empty, "", "", StatusProjeto.Disponivel.ToString())
-            : new ProjetoResponse(projeto.Id, projeto.Titulo, projeto.Descricao, projeto.Status.ToString());
+            ? new ProjetoResponse(Guid.Empty, "", "", StatusProjeto.Disponivel.ToString(), null)
+            : new ProjetoResponse(projeto.Id, projeto.Titulo, projeto.Descricao, projeto.Status.ToString(), _clienteConverter.EntityToResponse(projeto.Cliente));
     }
 
     public Projeto RequestToEntity(ProjetoRequest projetoRequest)
     {
 
         return (projetoRequest is null)
-            ? new Projeto(Guid.Empty, "", "", StatusProjeto.Disponivel)
-            : new Projeto(projetoRequest.Id, projetoRequest.Titulo!, projetoRequest.Descricao!, projetoRequest.Status);
+            ? new Projeto(Guid.Empty, "", "", StatusProjeto.Disponivel, new Cliente(Guid.Empty, "", "", "", "", new List<Projeto>()))
+            : new Projeto(projetoRequest.Id, projetoRequest.Titulo!, projetoRequest.Descricao!, projetoRequest.Status, new Cliente());
     }
 
     public ICollection<ProjetoResponse> EntityListToResponseList(IEnumerable<Projeto>? projetos)

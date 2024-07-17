@@ -12,15 +12,18 @@ public class Projeto
 
     }
 
-    public Projeto(Guid id, string? titulo, string descricao, StatusProjeto status)
+    public Projeto(Guid id, string? titulo, string descricao, StatusProjeto status, Cliente cliente)
     {
         Id = id;
+        Cliente = cliente;
         Titulo = titulo;
         Descricao = descricao;
         Status = status;
     }
+
     public Guid Id { get; set; }
     public string? Titulo { get; set; }
-    public  string? Descricao { get; set; }
+    public string? Descricao { get; set; }
     public StatusProjeto Status { get; set; }
+    public Cliente? Cliente { get; set; }
 }

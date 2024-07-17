@@ -28,5 +28,10 @@ internal class ProjetoTypeConfiguration : IEntityTypeConfiguration<Projeto>
             fromObj => fromObj.ToString(),
             fromDb => (StatusProjeto)Enum.Parse(typeof(StatusProjeto), fromDb));
 
+        entity
+            .HasOne(e => e.Cliente)
+            .WithMany(c => c.Projetos)
+            .HasForeignKey("ID_Cliente");
+
     }
 }
