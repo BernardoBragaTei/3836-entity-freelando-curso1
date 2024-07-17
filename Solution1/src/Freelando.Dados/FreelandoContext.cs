@@ -23,15 +23,7 @@ public class FreelandoContext : DbContext
         }
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Especialidade>(entity =>
-        {
-            entity.ToTable("TB_Especialidades");
-            entity.Property(e => e.Id).HasColumnName("ID_Especialidade");
-            entity.Property(e => e.Descricao).HasColumnName("DS_Especialidade");
-        });
-    }
+    modelBuilder.ApplyConfigurationsFromAssembly(typeof(FreelandoContext).Assembly);
 
     public DbSet<Candidatura> Candidaturas { get; set; }
     public DbSet<Cliente> Clientes { get; set; }
